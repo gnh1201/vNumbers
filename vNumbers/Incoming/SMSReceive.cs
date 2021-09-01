@@ -1,15 +1,15 @@
-﻿// www.smsonline.cloud
+﻿// sms-receive.net
 
 using System.Collections.Generic;
 using vNumbers.Model;
 
 namespace vNumbers.Incoming
 {
-    public class SMSOnline1 : IncomingBase
+    public class SMSReceive : IncomingBase
     {
-        public SMSOnline1()
+        public SMSReceive()
         {
-            Domain = "www.smsonline.cloud";
+            Domain = "sms-receive.net";
         }
 
         public override List<vMessage> Parse(string HTMLContent, string CurrentURL)

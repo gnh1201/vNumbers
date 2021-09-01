@@ -11,7 +11,7 @@ namespace vNumbers.Incoming
             Domain = "getfreesmsnumber.com";
         }
 
-        public override List<vMessage> Parse(string HTMLContent, string URL)
+        public override List<vMessage> Parse(string HTMLContent, string CurrentURL)
         {
             throw new System.NotImplementedException();
         }

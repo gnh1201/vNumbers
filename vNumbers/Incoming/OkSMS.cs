@@ -12,7 +12,7 @@ namespace vNumbers.Incoming
             Domain = "oksms.org";
         }
 
-        public override List<vMessage> Parse(string HTMLContent, string URL)
+        public override List<vMessage> Parse(string HTMLContent, string CurrentURL)
         {
             throw new System.NotImplementedException();
         }

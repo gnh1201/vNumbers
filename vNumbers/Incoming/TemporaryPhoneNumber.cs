@@ -1,15 +1,15 @@
-﻿// www.smsonline.cloud
+﻿// temporary-phone-number.com
 
 using System.Collections.Generic;
 using vNumbers.Model;
 
 namespace vNumbers.Incoming
 {
-    public class SMSOnline1 : IncomingBase
+    public class TemporaryPhoneNumber : IncomingBase
     {
-        public SMSOnline1()
+        public TemporaryPhoneNumber()
         {
-            Domain = "www.smsonline.cloud";
+            Domain = "temporary-phone-number.com";
         }
 
         public override List<vMessage> Parse(string HTMLContent, string CurrentURL)

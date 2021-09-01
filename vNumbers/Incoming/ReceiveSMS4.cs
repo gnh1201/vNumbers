@@ -12,7 +12,7 @@ namespace vNumbers.Incoming
             Domain = "receive-sms.cc";
         }
 
-        public override List<vMessage> Parse(string HTMLContent, string URL)
+        public override List<vMessage> Parse(string HTMLContent, string CurrentURL)
         {
             throw new System.NotImplementedException();
         }

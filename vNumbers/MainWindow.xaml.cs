@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 
 namespace vNumbers
 {
@@ -9,6 +10,7 @@ namespace vNumbers
     {
         public MainWindow()
         {
+            Task.Run(() => new IncomingController().DoWork());
             InitializeComponent();
         }
     }

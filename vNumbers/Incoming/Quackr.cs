@@ -14,7 +14,7 @@ namespace vNumbers.Incoming
             Domain = "quackr.io";
         }
 
-        public override List<vMessage> Parse(string HTMLContent, string URL)
+        public override List<vMessage> Parse(string HTMLContent, string CurrentURL)
         {
             List<vMessage> messages = new List<vMessage>();
 
@@ -56,7 +56,7 @@ namespace vNumbers.Incoming
 
                 // get informations from other variables
                 string domain = Domain;
-                string receiver = URL.Substring(URL.LastIndexOf('/') + 1);
+                string receiver = CurrentURL.Substring(CurrentURL.LastIndexOf('/') + 1);
                 string country = body.SelectSingleNode("div[@id='wrapper']/div/main/messages/section/div/div/div/h1/span").InnerText;
                 string carrier = "Unknown";
 

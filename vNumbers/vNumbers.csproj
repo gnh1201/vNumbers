@@ -86,6 +86,9 @@
     <Compile Include="Incoming\ReceiveSMS4.cs" />
     <Compile Include="Incoming\ReceiveSMSFree.cs" />
     <Compile Include="Incoming\OnlineSMS.cs" />
+    <Compile Include="Incoming\SMSReceive.cs" />
+    <Compile Include="Incoming\ReceiveSMSOnline.cs" />
+    <Compile Include="Incoming\TemporaryPhoneNumber.cs" />
     <Compile Include="Incoming\SMSOnline2.cs" />
     <Compile Include="Incoming\SMSOnline1.cs" />
     <Compile Include="Incoming\ReceiveSMS3.cs" />
