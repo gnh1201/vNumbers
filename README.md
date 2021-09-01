@@ -1,7 +1,7 @@
 # vNumbers
 Make own massive gateway for 1000+ world SMS virtual number
 
-  * Incoming SMS crawler
+  * Incoming SMS crawler (with multi-threading)
   * Outgoing SMS driver
   * User-defined actions
 
