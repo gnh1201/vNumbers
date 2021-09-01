@@ -142,7 +142,7 @@
     <Folder Include="Outgoing\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Data\urls.txt">
+    <Resource Include="urls.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

@@ -10,7 +10,8 @@ namespace vNumbers
     {
         public MainWindow()
         {
-            Task.Run(() => new IncomingController().DoWork());
+            IncomingController controller = new IncomingController();
+            Task.Run(() => controller.DoWork());
             InitializeComponent();
         }
     }

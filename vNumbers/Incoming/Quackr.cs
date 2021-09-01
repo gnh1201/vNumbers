@@ -21,9 +21,9 @@ namespace vNumbers.Incoming
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(HTMLContent);
 
-            HtmlNode body = doc.DocumentNode.SelectSingleNode("body");
-            HtmlNode tableBody = body.SelectSingleNode("table[@class='is-striped']/tbody");
-            HtmlNodeCollection rows = tableBody.SelectNodes("tr");
+            HtmlNode body = doc.DocumentNode.SelectSingleNode("//body");
+            HtmlNode table = body.SelectSingleNode("//table");
+            HtmlNodeCollection rows = table.SelectNodes("//tbody/tr");
             foreach(HtmlNode row in rows)
             {
                 HtmlNodeCollection cols = row.SelectNodes("td");
@@ -42,7 +42,7 @@ namespace vNumbers.Incoming
 
                     if (int.TryParse(_timestamp[0], out int t))
                     {
-                        switch (_timestamp[2])
+                        switch (_timestamp[1])
                         {
                             case "second": case "seconds": s = t;  break;    // example: 2 seconds ago
                             case "minute": case "minutes": i = t; break;     // example: 2 minutes ago
@@ -56,8 +56,9 @@ namespace vNumbers.Incoming
 
                 // get informations from other variables
                 string domain = Domain;
-                string receiver = CurrentURL.Substring(CurrentURL.LastIndexOf('/') + 1);
-                string country = body.SelectSingleNode("div[@id='wrapper']/div/main/messages/section/div/div/div/h1/span").InnerText;
+                string text_h1 = body.SelectSingleNode("//main/messages/section/div/div/div/h1").InnerText;
+                string receiver = text_h1.Substring(0, text_h1.IndexOf(' '));
+                string country = text_h1.Substring(text_h1.LastIndexOf(@"&nbsp; ") + 7);
                 string carrier = "Unknown";
 
                 // insert message to the database
@@ -71,7 +72,7 @@ namespace vNumbers.Incoming
                     Text = text,
                     ReceivedDateTtime = dt,
                     ConfirmedDateTime = DateTime.Now
-                });
+                }.ComputeHash());
             }
 
             return messages;

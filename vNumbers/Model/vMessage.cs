@@ -21,7 +21,7 @@ namespace vNumbers.Model
         {
             return Hash;
         }
-        public void ComputeHash()
+        public vMessage ComputeHash()
         {
             // https://stackoverflow.com/questions/17292366/hashing-with-sha1-algorithm-in-c-sharp
             using (SHA1Managed sha1 = new SHA1Managed())
@@ -36,6 +36,8 @@ namespace vNumbers.Model
                 }
 
                 Hash = sb.ToString();
+
+                return this;
             }
         }
     }
