@@ -1,5 +1,5 @@
 ﻿using CefSharp;
-using CefSharp.OffScreen;
+using CefSharp.WinForms;
 using LiteDB;
 using System;
 using System.Collections.Generic;
@@ -8,6 +8,10 @@ using System.Threading;
 using vNumbers.Incoming;
 using vNumbers.Model;
 using System.Linq;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace vNumbers
 {
@@ -26,15 +30,32 @@ namespace vNumbers
             IncomingURLs = new List<string>();
             Incomings = new List<vIncoming>
             {
-                new vIncoming(new Quackr())
+                new vIncoming(new Quackr()),
+                new vIncoming(new GetFreeSMSNumber())
             };
             Browsers = new Dictionary<ChromiumWebBrowser, bool>();
 
+            CefSettings cefSettings = new CefSettings() {
+                UserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.2 Safari/605.1.15",
+                CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"CefSharp\Cache")
+            };
+            Cef.Initialize(cefSettings);
+
             for (int i = 0; i < Concurrent; i++)
             {
-                ChromiumWebBrowser browser = new ChromiumWebBrowser();
+                ChromiumWebBrowser browser= new ChromiumWebBrowser();
                 browser.LoadingStateChanged += OnLoadingStateChanged;
+                //browser.Size = new Size(1024, 786);
                 Browsers.Add(browser, false);
+
+                Form form = new Form
+                {
+                    Text = "Preview",
+                    Size = new Size(1024, 786)
+                };
+                browser.Dock = DockStyle.Fill;
+                form.Controls.Add(browser);
+                form.Show();
             }
 
             DataBase = new LiteDatabase(@"data.db");
@@ -43,7 +64,10 @@ namespace vNumbers
 
             FetchURLs();
         }
+        public void Preview()
+        {
 
+        }
         public void FetchURLs() {
             string line;
             StreamReader file = new StreamReader(@"urls.txt");
@@ -72,13 +96,15 @@ namespace vNumbers
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e.Message);
+                        Console.WriteLine("[Exception] " + e.Message);
                     }
+
+                    break;
                 }
             }
         }
 
-        public async void OnLoadingStateChanged(object sender, LoadingStateChangedEventArgs args)
+        public void OnLoadingStateChanged(object sender, LoadingStateChangedEventArgs args)
         {
             bool IsLoading = args.IsLoading;
 
@@ -88,13 +114,16 @@ namespace vNumbers
             // Wait for the Page to finish loading
             if (!IsLoading)
             {
-                // Get page source
-                Thread.Sleep(5000);
-                string source = await browser.GetBrowser().MainFrame.GetSourceAsync();
-                Parse(source, browser.Address);
+                Task.Run(async () =>
+                {
+                    // Get page source
+                    Thread.Sleep(3000);
+                    string source = await browser.GetMainFrame().GetSourceAsync();
+                    Parse(source, browser.Address);
 
-                // Set loading status
-                Browsers[browser] = IsLoading;
+                    // Set loading status
+                    Browsers[browser] = IsLoading;
+                });
             }
         }
 
@@ -103,13 +132,14 @@ namespace vNumbers
             while (true)
             {
                 foreach (ChromiumWebBrowser browser in Browsers.Keys.ToList()) {
-                    Thread.Sleep(1);
+                    Thread.Sleep(300);
 
                     bool isLoading = Browsers[browser];
                     if (!isLoading)
                     {
+                        string incomingURL = IncomingURLs[Counter];
                         Browsers[browser] = true;
-                        browser.Load(IncomingURLs[Counter]);
+                        browser.Load(incomingURL);
                         Counter++;
 
                         // Reset counter to 0

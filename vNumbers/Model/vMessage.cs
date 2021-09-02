@@ -1,5 +1,6 @@
 ﻿using LiteDB;
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -15,7 +16,8 @@ namespace vNumbers.Model
         public string Receiver { get; set; }
         public string Text { get; set; }
         public string Hash { get; set; }
-        public DateTime ReceivedDateTtime { get; set; }
+        public List<vFile> AttachedFiles { get; set; }
+        public DateTime ReceivedDateTime { get; set; }
         public DateTime ConfirmedDateTime { get; set; }
         public string GetHash()
         {

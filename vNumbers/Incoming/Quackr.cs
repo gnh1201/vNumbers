@@ -22,6 +22,13 @@ namespace vNumbers.Incoming
             doc.LoadHtml(HTMLContent);
 
             HtmlNode body = doc.DocumentNode.SelectSingleNode("//body");
+
+            string domain = Domain;
+            string text_h1 = body.SelectSingleNode("//main/messages/section/div/div/div/h1").InnerText;
+            string receiver = text_h1.Substring(0, text_h1.IndexOf(' '));
+            string country = text_h1.Substring(text_h1.LastIndexOf(@"&nbsp; ") + 7);
+            string carrier = "Unknown";
+
             HtmlNode table = body.SelectSingleNode("//table");
             HtmlNodeCollection rows = table.SelectNodes("//tbody/tr");
             foreach(HtmlNode row in rows)
@@ -54,13 +61,6 @@ namespace vNumbers.Incoming
                 }
                 dt = DateTime.Now - ts;
 
-                // get informations from other variables
-                string domain = Domain;
-                string text_h1 = body.SelectSingleNode("//main/messages/section/div/div/div/h1").InnerText;
-                string receiver = text_h1.Substring(0, text_h1.IndexOf(' '));
-                string country = text_h1.Substring(text_h1.LastIndexOf(@"&nbsp; ") + 7);
-                string carrier = "Unknown";
-
                 // insert message to the database
                 messages.Add(new vMessage
                 {
@@ -70,7 +70,7 @@ namespace vNumbers.Incoming
                     Sender = sender,
                     Receiver = receiver,
                     Text = text,
-                    ReceivedDateTtime = dt,
+                    ReceivedDateTime = dt,
                     ConfirmedDateTime = DateTime.Now
                 }.ComputeHash());
             }
