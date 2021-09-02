@@ -12,7 +12,10 @@ namespace vNumbers
         {
             IncomingController controller = new IncomingController();
             Task.Run(() => controller.DoWork());
+
             InitializeComponent();
+
+            dgMain.ItemsSource = controller.GetIncomingMessages();
         }
     }
 }

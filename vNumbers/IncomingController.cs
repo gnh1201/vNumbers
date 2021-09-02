@@ -64,9 +64,9 @@ namespace vNumbers
 
             FetchURLs();
         }
-        public void Preview()
+        public List<vMessage> GetIncomingMessages()
         {
-
+            return MessageCollection.FindAll().ToList();
         }
         public void FetchURLs() {
             string line;

@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:vNumbers"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="1050.286" Width="975.191">
     <Grid>
-        <DataGrid />
+        <DataGrid x:Name="dgMain"/>
     </Grid>
 </Window>
